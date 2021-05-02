@@ -1,0 +1,28 @@
+classes of nouns
+singular   plural
+Mo.......   Ba
+Mo.......   Me
+Le.......   Ma 
+Se.......   Di
+N........   Di
+Lo.......   Bo
+Go
+
+Possessive Concords
+singular    plural
+wa.........   ba
+wa.........   ya   
+la.........   a
+sa.........   tsa
+ya.........   tsa
+la.........   tsa
+ba.........   a
+
+adjective Concords
+singular    plural
+yo o/ yo mo     ba ba
+o o/ o mo       ee/e Me
+le le           a a
+se se           tse di
+lo lo           tse di
+bo bo           a a

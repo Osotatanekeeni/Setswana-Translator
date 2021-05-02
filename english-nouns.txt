@@ -1,0 +1,15 @@
+perosn
+rope
+wall
+axe
+snake
+cave
+kitchen
+woman
+Sotho
+eye
+leaf
+chin
+well
+nose
+noses
