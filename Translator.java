@@ -5,22 +5,7 @@ import java.util.regex.Pattern;
 
 class Translator {
 
-    ArrayList<String> pronouns = new ArrayList<String>();
-
-    // Temp variables for translated words
-    //His Car
-    //Hardcode pronouns
-    //Translating man, go to file, look for man, store the translation in a temp variable
-    //Using sentences, tokenuze the then put them in a array 
-    //Koloi ya monna
-
-    public void testTranslator(String word) {
-        //Add the pronouns
-        pronouns.add("his");
-        pronouns.add("her");
-        pronouns.add("your");
-        pronouns.add("their");
-
+    public static void translateNoun(String word) {
         File file = new File("nouns.txt");
         try {
             Scanner sc = new Scanner(file);
@@ -34,9 +19,7 @@ class Translator {
                 if (word.equalsIgnoreCase(english)) {
                     System.out.println(word + " --> " + setswana);
                 } 
-                continue;
             }
-            //His car - Koloi 
             sc.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -107,29 +90,135 @@ class Translator {
         return tempAdj;
     }
 
+    public static void printNouns() {
+        File nouns = new File("nouns.txt");
+
+        try {
+            Scanner sc = new Scanner(nouns);
+            System.out.print("Accepted Nouns --> [ ");
+            while(sc.hasNextLine()) {
+                String noun = sc.nextLine();
+                String[] nounarr = noun.split(" ");
+                String englishnoun = nounarr[0];
+                
+                System.out.print(englishnoun + "|");
+            }
+            System.out.print(" ]");
+            System.out.println("");
+            sc.close();
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printPronouns() {
+        File pronouns = new File("pronouns.txt");
+
+        try {
+            Scanner sc = new Scanner(pronouns);
+            System.out.print("Accepted Pronouns --> [ ");
+            while(sc.hasNextLine()) {
+                String pronoun = sc.nextLine();
+                String[] pronounarr = pronoun.split(" ");
+                String englishpro = pronounarr[0];
+                
+                System.out.print(englishpro + "|");
+            }
+            System.out.print(" ]");
+            System.out.println(" ");
+            sc.close();
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printAdjectives() {
+        File adjectives = new File("adjectives.txt");
+
+        try {
+            Scanner sc = new Scanner(adjectives);
+            System.out.print("Accepted Adjectives --> [ ");
+            while(sc.hasNextLine()) {
+                String adj = sc.nextLine();
+                String[] adjarr = adj.split(" ");
+                String englishadj = adjarr[0];
+                
+                System.out.print(englishadj + "|");
+            }
+            sc.close();
+            System.out.print(" ]");
+            System.out.println("");
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void translateAdjectiveAndNoun(String sentence) {
+        File nounClass = new File("nounClass.txt");
+        String[] words = sentence.split(" ");
+        Pattern pattern = Pattern.compile(" ");
+        words = pattern.split(sentence);
+
+        String tempNoun, tempAdjective;
+        tempNoun = tempAdjective = "";
+        String transAdjective, transNoun;
+        transNoun = transAdjective = "";
+
+        try {
+            Scanner sc = new Scanner(nounClass);
+
+            while(sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] arr = line.split(";");
+                String legokedi = arr[0];
+                String letlhaodi = arr[1];
+                //String leamanyi = arr[2];
+                String lerui = arr[3];
+
+                
+                tempAdjective = words[0];
+                tempNoun = words[1];
+                transNoun = checkNoun(tempNoun);
+
+                String concord = transNoun.substring(0,2);
+                String concord2 = transNoun.substring(0,1);
+                String concord3 = transNoun.substring(0,3);
+
+                if (concord.equalsIgnoreCase(legokedi)) {
+                    transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
+                }
+                if (concord2.equalsIgnoreCase(legokedi)) {
+                    transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
+                }
+                if (concord3.equalsIgnoreCase(legokedi)) {
+                    transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
+                }
+            }
+            System.out.println(sentence + " " + "-->" + transNoun + " " + transAdjective);
+            sc.close();
+        }catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Translation for a sentence with possessive and adjective
      */
-    public void translateSentence(String sentence) {
+    public static void translateSentence(String sentence) {
         File nounClass = new File("nounClass.txt");
     
         String[] words = sentence.split(" ");
-        System.out.println(Arrays.toString(words));
+        //System.out.println(Arrays.toString(words));
         Pattern pattern = Pattern.compile(" ");
         words = pattern.split(sentence);
         //System.out.println(Arrays.toString(words));
 
-        String tempPronoun, tempNoun, tempAdjective, tempConcord;
-        tempPronoun = tempNoun = tempAdjective = tempConcord = "";
+        String tempPronoun, tempNoun, tempAdjective;
+        tempPronoun = tempNoun = tempAdjective = "";
         String transPronoun, transNoun, transAdjective;
         transPronoun = transNoun = transAdjective = "";
-        String subs = "";
-        String subs2 = "";
-        String subs3 = "";
-        // String tempNoun = "";
-        // String tempAdjective = "";
-        // String tempConcord = "";
-        //String combinedSentence = "";
+        String concord = "";
+        String concord2 = "";
+        String concord3 = "";
 
         /**
          * Sentence: His red chair
@@ -157,39 +246,54 @@ class Translator {
 
                 //get the first 2 characters of the noun
                 //to find the class
-                subs = transNoun.substring(0,2);
-                subs2 = transNoun.substring(0,1);
-                subs3 = transNoun.substring(0,3);
-                if (subs.equalsIgnoreCase(legokedi)) {
+                concord = transNoun.substring(0,2);
+                concord2 = transNoun.substring(0,1);
+                concord3 = transNoun.substring(0,3);
+
+                if (concord.equalsIgnoreCase(legokedi)) {
                     transPronoun = lerui+ " "+checkPronoun(tempPronoun);
                     transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
                 }
-                if (subs2.equalsIgnoreCase(legokedi)) {
+                if (concord2.equalsIgnoreCase(legokedi)) {
                     transPronoun = lerui+ " "+checkPronoun(tempPronoun);
                     transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
                 }
-                if (subs3.equalsIgnoreCase(legokedi)) {
+                if (concord3.equalsIgnoreCase(legokedi)) {
                     transPronoun = lerui+ " "+checkPronoun(tempPronoun);
                     transAdjective = letlhaodi+ " " + checkAdjective(tempAdjective);
                 }
 
             }
             
-            System.out.println(transNoun + " " + transPronoun + " " + transAdjective + " ");
+            System.out.println(sentence + " " + "---> " +transNoun + " " + transPronoun + " " + transAdjective + " ");
             sc.close();
         }catch(FileNotFoundException e) {
             e.printStackTrace();
         }
     }
     public static void main(String[] args) throws FileNotFoundException {
-        
-        Translator translate= new Translator();
+        System.out.println("");
+        System.out.println("----------ENGLISH TO SETSWANA TRANSLATION----------");
+        System.out.println("");
+
+        printNouns();
+        printPronouns();
+        printAdjectives();
+        System.out.println("");
+       
+        // Translator translate= new Translator();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a sentence: ");
+        System.out.print("Enter a sentence: ");
         String sentence = sc.nextLine();
 
-        //translate.testTranslator(word);
         sc.close();
-        translate.translateSentence(sentence);
+
+        //TRANSLATE A NOUN
+        //translateNoun(sentence);
+        //Sentence with only noun and adjective
+        //translateAdjectiveAndNoun(sentence);
+
+        //Sentence with pronoun, adjective and noun
+        translateSentence(sentence);
     }
 }
