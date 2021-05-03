@@ -3,4 +3,4 @@
 ## To run:
 ### - Run Translator.java
 ### - When prompted, enter a sentence with 3 words: pronoun, adjective, noun
-### - Only enter the word in the dictionary
+### - Only enter a word which is in the dictionary
