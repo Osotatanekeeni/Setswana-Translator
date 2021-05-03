@@ -1,5 +1,4 @@
-# CSI428-ASSIGNMENT-3
-## ENGLISH - SETSWANA TRANSLATOR
+# ENGLISH - SETSWANA TRANSLATOR
 ### The program translates English Adjectives and Possessives to Setswana equivalents
 ## To run:
 ### - Run Translator.java
